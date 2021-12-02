@@ -3,6 +3,8 @@
   <component name="DesignSurface">
     <option name="filePathToZoomLevelMap">
       <map>
+        <entry key="..\:/Users/Administrator/AndroidStudioProjects/FloatFluteMusicPlayer/app/src/main/res/drawable/custom_seekbar.xml" value="0.59765625" />
+        <entry key="..\:/Users/Administrator/AndroidStudioProjects/FloatFluteMusicPlayer/app/src/main/res/drawable/custom_thumb.xml" value="0.37864583333333335" />
         <entry key="..\:/Users/Administrator/AndroidStudioProjects/FloatFluteMusicPlayer/app/src/main/res/drawable/round_back_10.xml" value="0.37864583333333335" />
         <entry key="..\:/Users/Administrator/AndroidStudioProjects/FloatFluteMusicPlayer/app/src/main/res/layout/activity_main.xml" value="0.5" />
         <entry key="..\:/Users/Administrator/AndroidStudioProjects/FloatFluteMusicPlayer/app/src/main/res/mipmap-anydpi-v26/ic_launcher.xml" value="0.37864583333333335" />
