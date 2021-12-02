@@ -62,15 +62,15 @@
         android:id="@+id/musicRecyclerView"
         android:layout_width="match_parent"
         android:layout_height="0dp"
-        android:layout_above="@+id/bottomBar"
+        android:layout_above="@+id/endLine"
         android:layout_marginTop="10dp"
         android:layout_marginBottom="10dp"
-        app:layout_constraintBottom_toTopOf="@+id/bottomBar"
+        app:layout_constraintBottom_toTopOf="@+id/endLine"
         app:layout_constraintTop_toBottomOf="@+id/textView"
         tools:layout_editor_absoluteX="0dp" />
 
     <LinearLayout
-        android:id="@id/bottomBar"
+        android:id="@id/endLine"
         android:layout_width="0dp"
         android:layout_height="0dp"
         android:orientation="vertical"
@@ -86,33 +86,33 @@
 
             <TextView
                 android:id="@+id/startTime"
-                android:layout_marginStart="10dp"
-                android:textSize="12dp"
-                android:layout_centerVertical="true"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
-                android:text="00:00" />
+                android:layout_centerVertical="true"
+                android:layout_marginStart="10dp"
+                android:text="00:00"
+                android:textSize="12dp" />
 
             <SeekBar
                 android:id="@+id/playerSeeker"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
                 android:layout_centerVertical="true"
-                android:layout_toStartOf="@id/bottomBar"
+                android:layout_toStartOf="@id/endTime"
                 android:layout_toEndOf="@id/startTime"
                 android:max="100"
                 android:progress="50"
                 android:thumb="@drawable/custom_thumb" />
 
             <TextView
-                android:id="@+id/bottomBar"
-                android:layout_marginEnd="10dp"
-                android:textSize="12dp"
-                android:layout_centerVertical="true"
+                android:id="@+id/endTime"
                 android:layout_width="wrap_content"
-                android:layout_height="30dp"
+                android:layout_height="wrap_content"
                 android:layout_alignParentEnd="true"
-                android:text="00:00" />
+                android:layout_centerVertical="true"
+                android:layout_marginEnd="11dp"
+                android:text="00:00"
+                android:textSize="12dp" />
 
         </RelativeLayout>
 

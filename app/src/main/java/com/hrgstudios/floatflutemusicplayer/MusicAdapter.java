@@ -23,10 +23,12 @@ public class MusicAdapter extends RecyclerView.Adapter<MusicAdapter.MyViewHolder
     private final List<MusicList> list;
     private final Context context;
     private int playingPosition = 0;
+    private final SongChangeListener songChangeListener;
 
     public MusicAdapter(List<MusicList> list, Context context) {
         this.list = list;
         this.context = context;
+        this.songChangeListener = ((SongChangeListener) context);
     }
 
     @SuppressLint("InflateParams")
@@ -37,6 +39,7 @@ public class MusicAdapter extends RecyclerView.Adapter<MusicAdapter.MyViewHolder
     }
 
     @Override
+    @SuppressLint("RecyclerView")
     public void onBindViewHolder(@NonNull MusicAdapter.MyViewHolder holder, int position) {
         MusicList list2 = list.get(position);
 
@@ -49,9 +52,12 @@ public class MusicAdapter extends RecyclerView.Adapter<MusicAdapter.MyViewHolder
         }
 
 
-        String generateDuration = String.format(Locale.getDefault(),"%2d:2d%", TimeUnit.MILLISECONDS.toMinutes(Long.parseLong(list2.getDuration())),
-                TimeUnit.MILLISECONDS.toSeconds(Long.parseLong(list2.getDuration())),
+        String generateDuration = String.format(Locale.getDefault(),"%02d:%02d",
+                TimeUnit.MILLISECONDS.toMinutes(Long.parseLong(list2.getDuration())),
+                TimeUnit.MILLISECONDS.toSeconds(Long.parseLong(list2.getDuration())) -
                 TimeUnit.MINUTES.toSeconds(TimeUnit.MILLISECONDS.toMinutes(Long.parseLong(list2.getDuration()))));
+
+
         holder.Title.setText(list2.getTitle());
         holder.artist.setText(list2.getArtist());
         holder.musicDuration.setText(generateDuration);
@@ -62,6 +68,8 @@ public class MusicAdapter extends RecyclerView.Adapter<MusicAdapter.MyViewHolder
 
                 list.get(playingPosition).setPlaying(false);
                 list2.setPlaying(true);
+
+                songChangeListener.onChanged(position);
 
                 notifyDataSetChanged();
             }
