@@ -31,6 +31,8 @@ import java.io.IOException;
 import java.util.ArrayList;
 import java.util.List;
 import java.util.Locale;
+import java.util.Timer;
+import java.util.TimerTask;
 import java.util.concurrent.TimeUnit;
 
 public class MainActivity extends AppCompatActivity implements SongChangeListener{
@@ -42,7 +44,7 @@ public class MainActivity extends AppCompatActivity implements SongChangeListene
     private boolean isPlaying = false;
     private SeekBar playerSeeker;
     private ImageView playPauseImg;
-
+    private Timer timer;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -82,6 +84,48 @@ public class MainActivity extends AppCompatActivity implements SongChangeListene
                 getMusicFiles();
             }
         }
+
+        playPauseCard.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                if(isPlaying){
+                    isPlaying = false;
+
+                    mediaPlayer.pause();
+                    playPauseImg.setImageResource(R.drawable.ic_play);
+                }
+                else{
+                    isPlaying = true;
+                    mediaPlayer.start();
+                    playPauseImg.setImageResource(R.drawable.ic_pause);
+                }
+            }
+        });
+
+        playerSeeker.setOnSeekBarChangeListener(new SeekBar.OnSeekBarChangeListener() {
+            @Override
+            public void onProgressChanged(SeekBar seekBar, int progress, boolean fromUser) {
+                if(fromUser){
+                    if(isPlaying){
+                        mediaPlayer.seekTo(progress);
+                    }
+                    else{
+                        mediaPlayer.seekTo(0);
+                    }
+                }
+            }
+
+            @Override
+            public void onStartTrackingTouch(SeekBar seekBar) {
+
+            }
+
+            @Override
+            public void onStopTrackingTouch(SeekBar seekBar) {
+
+            }
+        });
+
     }
 
     @SuppressLint("Range")
@@ -182,5 +226,43 @@ public class MainActivity extends AppCompatActivity implements SongChangeListene
                     playPauseImg.setImageResource(R.drawable.ic_pause);
                 }
             });
+
+        timer = new Timer();
+        timer.scheduleAtFixedRate(new TimerTask() {
+            @Override
+            public void run() {
+            runOnUiThread(new Runnable() {
+                @Override
+                public void run() {
+                    final int getCurrentDuration = mediaPlayer.getCurrentPosition();
+
+                    String generateDuration = String.format(Locale.getDefault(),"%02d:%02d",
+                            TimeUnit.MILLISECONDS.toMinutes((getCurrentDuration)),
+                            TimeUnit.MILLISECONDS.toSeconds((getCurrentDuration)) -
+                                    TimeUnit.MINUTES.toSeconds(TimeUnit.MILLISECONDS.toMinutes(getCurrentDuration)));
+
+                    playerSeeker.setProgress(getCurrentDuration);
+                    startTime.setText(generateDuration);
+                }
+            });
+            }
+        },1000, 1000);
+
+        mediaPlayer.setOnCompletionListener(new MediaPlayer.OnCompletionListener() {
+            @Override
+            public void onCompletion(MediaPlayer mp) {
+                mediaPlayer.reset();
+
+                timer.purge();
+                timer.cancel();
+
+                isPlaying = false;
+
+                playPauseImg.setImageResource(R.drawable.ic_play);
+
+                playerSeeker.setProgress(0);
+            }
+        });
+
     }
 }
